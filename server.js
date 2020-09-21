@@ -4,10 +4,10 @@ const http = require("http");
 const socketio = require("socket.io");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const user = require("./Models/User");
-const roomRoutes = require("./Routes/roomRoutes");
-const userRoutes = require("./Routes/userRoutes");
-const messageRoutes = require("./Routes/messageRoutes");
+const user = require("./src/Models/User");
+const roomRoutes = require("./src/Routes/roomRoutes");
+const userRoutes = require("./src/Routes/userRoutes");
+const messageRoutes = require("./src/Routes/messageRoutes");
 
 const app = express();
 const server = http.createServer(app);
@@ -33,6 +33,11 @@ mongoose.connect(url, {
 io.on("connection", (socket) => {
   console.log("connection set" + socket.id);
   socket.on("user-joined", (data) => addUser(data, socket.id));
+  socket.on("join-room", (room) => {
+    console.log("kkkkkkk", room);
+    socket.join(room);
+    socket.to(room).emit("new-user-joined", `New User Has Joined the room`);
+  });
 });
 
 const addUser = async (x, id) => {
@@ -50,6 +55,7 @@ const addUser = async (x, id) => {
 };
 
 app.use((req, res, next) => {
+  console.log(req.params.id);
   if (req.body) req.body.createdBy = req.headers.user;
   next();
 });

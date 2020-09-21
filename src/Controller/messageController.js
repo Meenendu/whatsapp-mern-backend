@@ -12,7 +12,8 @@ const postMessage = async (req, res) => {
         if (err) {
           res.status(500).send(err);
         } else {
-          req.io.emit("new-message", data2);
+          console.log(data2);
+          req.io.to(req.body.room).emit("new-message", data2);
         }
       });
   } catch (e) {
@@ -21,11 +22,11 @@ const postMessage = async (req, res) => {
 };
 
 const getAllMessages = (req, res) => {
+  console.log(req.params);
   message
-    .find()
+    .find({ room: req.params.id })
     .populate("createdBy")
     .exec((err, data) => {
-      // console.log(data);
       if (err) {
         res.status(500).send(err);
       } else {

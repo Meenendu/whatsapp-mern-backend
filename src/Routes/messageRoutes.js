@@ -5,7 +5,7 @@ const {
   postMessage,
 } = require("../Controller/messageController");
 
-router.get("/", getAllMessages);
+router.get("/:id", getAllMessages);
 
 router.post("/", postMessage);
 
