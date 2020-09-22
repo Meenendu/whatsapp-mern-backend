@@ -5,6 +5,7 @@ const rooms = new mongoose.Schema({
   createdOn: { type: Date, default: Date.now },
   createdBy: { type: String },
   members: [{ type: String, ref: "user" }],
+  lastMessage: { type: Object },
 });
 
 module.exports = mongoose.model("rooms", rooms);
