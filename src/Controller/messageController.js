@@ -1,7 +1,6 @@
 const message = require("../Models/Message");
 
 const postMessage = async (req, res) => {
-  console.log(req.body);
   try {
     const data = await message.create(req.body);
     res.status(201).send(data);
@@ -12,7 +11,6 @@ const postMessage = async (req, res) => {
         if (err) {
           res.status(500).send(err);
         } else {
-          console.log(data2);
           req.io.to(req.body.room).emit("new-message", data2);
         }
       });
@@ -22,7 +20,6 @@ const postMessage = async (req, res) => {
 };
 
 const getAllMessages = (req, res) => {
-  console.log(req.params);
   message
     .find({ room: req.params.id })
     .populate("createdBy")

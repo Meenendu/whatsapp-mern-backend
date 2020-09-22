@@ -36,7 +36,9 @@ io.on("connection", (socket) => {
   socket.on("join-room", (room) => {
     console.log("kkkkkkk", room);
     socket.join(room);
-    socket.to(room).emit("new-user-joined", `New User Has Joined the room`);
+    socket
+      .to(room)
+      .emit("new-user-joined", room + ` New User Has Joined the room`);
   });
 });
 

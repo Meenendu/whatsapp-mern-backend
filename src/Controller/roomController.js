@@ -25,7 +25,6 @@ const getRooms = async (req, res) => {
             .limit(1)
             .exec();
           element.lastMessage = x;
-          console.log(element);
           if (y === data.length - 1) res.status(200).send(data);
           y++;
         });
@@ -48,7 +47,6 @@ const getSingleRoom = (req, res) => {
 };
 
 const createRoom = async (req, res) => {
-  console.log(req.body);
   try {
     const data = await rooms.create(req.body);
 
